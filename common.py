@@ -87,3 +87,35 @@ def derive_family(species_pred, mapping):
 def pct(x):
     """Format an accuracy as a percentage with two decimals."""
     return "%.2f" % (100.0 * x)
+
+
+def majority_vote(predictions, classes):
+    """Majority vote over rows of `predictions` (n_models, n_samples).
+
+    Ties are broken towards the smallest class label: `classes` must be
+    sorted, and np.argmax returns the first (smallest) index on equal counts.
+    """
+    predictions = np.asarray(predictions)
+    classes = np.asarray(classes)
+    n_models, n_samples = predictions.shape
+    class_idx = np.searchsorted(classes, predictions)
+
+    votes = np.zeros((n_samples, classes.size), dtype=np.int64)
+    rows = np.arange(n_samples)
+    for t in range(n_models):
+        votes[rows, class_idx[t]] += 1
+    return classes[np.argmax(votes, axis=1)]
+
+
+def weighted_vote(predictions, weights, classes):
+    """Weighted vote: argmax_k sum_t w_t 1[h_t = k]; ties -> smallest label."""
+    predictions = np.asarray(predictions)
+    classes = np.asarray(classes)
+    n_models, n_samples = predictions.shape
+    class_idx = np.searchsorted(classes, predictions)
+
+    scores = np.zeros((n_samples, classes.size), dtype=np.float64)
+    rows = np.arange(n_samples)
+    for t in range(n_models):
+        scores[rows, class_idx[t]] += weights[t]
+    return classes[np.argmax(scores, axis=1)]

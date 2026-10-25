@@ -18,48 +18,13 @@ from common import (
     accuracy,
     derive_family,
     load_data,
+    majority_vote,
     pct,
     species_family_map,
     stratified_split,
+    weighted_vote,
 )
 from part1_decision_tree import DecisionTree
-
-
-# ---------------------------------------------------------------------------
-# Voting helpers
-# ---------------------------------------------------------------------------
-
-
-def majority_vote(predictions, classes):
-    """Majority vote over rows of `predictions` (n_models, n_samples).
-
-    Ties are broken towards the smallest class label: `classes` is sorted and
-    np.argmax returns the first (smallest) index among equal counts.
-    """
-    predictions = np.asarray(predictions)
-    classes = np.asarray(classes)
-    n_models, n_samples = predictions.shape
-    class_idx = np.searchsorted(classes, predictions)
-
-    votes = np.zeros((n_samples, classes.size), dtype=np.int64)
-    rows = np.arange(n_samples)
-    for t in range(n_models):
-        votes[rows, class_idx[t]] += 1
-    return classes[np.argmax(votes, axis=1)]
-
-
-def weighted_vote(predictions, weights, classes):
-    """Weighted vote (used by AdaBoost): argmax_k sum_t alpha_t 1[h_t = k]."""
-    predictions = np.asarray(predictions)
-    classes = np.asarray(classes)
-    n_models, n_samples = predictions.shape
-    class_idx = np.searchsorted(classes, predictions)
-
-    scores = np.zeros((n_samples, classes.size), dtype=np.float64)
-    rows = np.arange(n_samples)
-    for t in range(n_models):
-        scores[rows, class_idx[t]] += weights[t]
-    return classes[np.argmax(scores, axis=1)]
 
 
 # ---------------------------------------------------------------------------
@@ -97,9 +62,12 @@ class BaggingClassifier:
             self.trees_.append(tree)
         return self
 
+    def predict_all_trees(self, X):
+        """(n_estimators, n_samples) matrix of individual tree predictions."""
+        return np.array([tree.predict(X) for tree in self.trees_])
+
     def predict(self, X):
-        predictions = np.array([tree.predict(X) for tree in self.trees_])
-        return majority_vote(predictions, self.classes_)
+        return majority_vote(self.predict_all_trees(X), self.classes_)
 
 
 # ---------------------------------------------------------------------------
