@@ -2,6 +2,7 @@ BITS F464: Machine Learning
 Assignment 1: Flat vs. Hierarchical Classification From Scratch
 Semester I, Academic Year 2026-27
 Student ID: 2024ADPS0196H
+Student ID: 2024ADPS0194H
 
 
 FILES
