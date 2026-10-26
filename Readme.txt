@@ -1,99 +1,81 @@
-Data Set Name: Anuran Calls (MFCCs)
-
-Abstract: (less than 200 characters).
-
-Acoustic features extracted from syllables of anuran (frogs) calls, including the family, the genus, and the species labels. 
-
-Source:
-
-	Eng. Juan Gabriel Colonna <juancolonna@icomp.ufam.edu.br>
-	Prof. Eduardo Freire Nakamura <nakamura@icomp.ufam.edu.br>
-	Prof. Marco A. P. Cristo <marco.cristo@gmail.com>
-	Biologist and collaborator Prof. Marcelo Gordo <mgordo@ufam.edu.br>
-	Universidade Federal do Amazonas, Av. General Rodrigo Octavio Jordão Ramos, 1200 - Coroado I, Manaus - AM, 69067-005, Brasil.
-
-Number of Instances (records in your data set): 7195
-
-Number of Attributes (fields within each record): 22
-
-Relevant Information:
-
-This dataset was used in several classifications tasks related to the challenge of anuran species recognition through their calls. It is a multilabel dataset with three columns of labels. This dataset was created segmenting 60 audio records belonging to 4 different families, 8 genus, and 10 species. Each audio corresponds to one specimen (an individual frog), the record ID is also included as an extra column. We used the spectral entropy and a binary cluster method to detect audio frames belonging to each syllable. The segmentation and feature extraction were carried out in Matlab. After the segmentation we got 7195 syllables, which became instances for train and test the classifier. These records were collected in situ under real noise conditions (the background sound). Some species are from the campus of Federal University of Amazonas, Manaus, others from Mata Atlântica, Brazil, and one of them from Córdoba, Argentina. The recordings were stored in wav format with 44.1kHz of sampling frequency and 32bit of resolution, which allows us to analyze signals up to 22kHz. From every extracted syllable 22 MFCCs were calculated by using 44 triangular filters. These coefficients were normalized between -1 ≤ mfcc ≤ 1. The amount of instances per class are:
-
-Families:
-	 Bufonidae              68 
-     Dendrobatidae         542 
-     Hylidae              2165 
-     Leptodactylidae      4420 
-
-Genus:
-     Adenomera          4150 
-     Ameerega            542 
-     Dendropsophus       310 
-     Hypsiboas          1593 
-     Leptodactylus       270 
-     Osteocephalus       114 
-     Rhinella             68 
-     Scinax              148 
-
-Species:
-     AdenomeraAndre             672 
-     AdenomeraHylaedact…       3478 
-     Ameeregatrivittata         542 
-     HylaMinuta                 310 
-     HypsiboasCinerascens       472 
-     HypsiboasCordobae         1121 
-     LeptodactylusFuscus        270 
-     OsteocephalusOopha…        114 
-     Rhinellagranulosa           68 
-     ScinaxRuber                148 
+BITS F464: Machine Learning
+Assignment 1: Flat vs. Hierarchical Classification From Scratch
+Semester I, Academic Year 2026-27
+Student ID: 2024ADPS0196H
 
 
+FILES
+-----
+common.py                   Shared loader, fixed train/test split, metrics,
+                            voting helpers, species-to-family mapping.
+part1_decision_tree.py      Single CART decision tree (Gini / entropy), with
+                            sample weights, max_depth, max_features, rng.
+part2_bagging_boosting.py   Bagging and multi-class SAMME AdaBoost.
+part3_random_forest.py      Random forest (per-node feature subsets).
+part4_hierarchical.py       Router over families + one expert per family.
+part5_naive_bayes.py        Flat Gaussian naive Bayes.
+results_matrix.pdf          Filled Table 2 and Table 3 (typed).
+Frogs_MFCCs.csv             Dataset: UCI Anuran Calls (MFCCs).
 
 
-Attribute Information:
+ENVIRONMENT
+-----------
+Python  3.14.0
+numpy   2.4.6
+pandas  3.0.3
 
-Mel-frequency cepstral coefficients (MFCCs) are coefficients that collectively make up an mel-frequency cepstrum (MFC). Due to each syllable has different length, every row (i) was normalized acording to MFCCs_i/(max(abs(MFCCs_i))).
-
-Relevant Papers:
-
-1) COLONNA, J. G.; CRISTO, M.; SALVATIERRA, M.; NAKAMURA, E. F. 
-An Incremental Technique for Real-Time Bioacoustic Signal Segmentation. 
-Expert Systems with Applications, v. 42, p. 7367-7374, 2015.
-
-2) COLONNA, J. G.; GAMA, J.; NAKAMURA, E. F.
-How to Correctly Evaluate an Automatic Bioacoustics Classification Method. 
-In: 17th Conference of the Spanish Association for Artificial Intelligence (CAEPIA). 
-Lecture Notes in Computer Science. 986ed.: Springer International Publishing, 2016, v. , p. 37-47.
-
-3) COLONNA, J. G.; GAMA, J.; NAKAMURA, E. F. 
-Recognizing Family, Genus, and Species of Anuran Using a Hierarchical Classification Approach.
-Lecture Notes in Computer Science. 995ed.: Springer International Publishing, 2016, v. 9956, p. 198-212.
-
-4) COLONNA, J. G.; RIBAS, A. D.; SANTOS, E. M.; NAKAMURA, E. F.
-Feature Subset Selection for Automatically Classifying Anuran Calls Using Sensor Networks. 
-In: International Joint Conference on Neural Networks, 2012, Brisbane. 
-Proceedings of the International Joint Conference on Neural Networks (IJCNN 2012), 2012. p. 1-8. IEEE
-
-5) COLONNA, J. G.; PEET, T.; FERREIRA, C. A.; JORGE, A. M.; GOMES, E. F.; GAMA, J. (2016, July). 
-Automatic Classification of Anuran Sounds Using Convolutional Neural Networks. 
-In Proceedings of the Ninth International C* Conference on Computer Science & Software Engineering (No. C3S2E '16, pp. 73-78). ACM.
-
-6) COLONNA, J. G.; CRISTO, M.; NAKAMURA, E. F. (2014, August). 
-A Distributed Approach for Classifying Anuran Species Based on Their Calls. 
-In Pattern Recognition (ICPR), 2014 22nd International Conference on (pp. 1242-1247). IEEE.
-
-7) RIBAS, A. D.; COLONNA, J. G.; FIGUEIREDO, C. M. S.; NAKAMURA, E. F.
-Similarity clustering for data fusion in wireless sensor networks using k-means
-The 2012 International Joint Conference on Neural Networks (IJCNN 2012), p. 1-7. IEEE
-
-8) DIAZ, J. M.; COLONNA, J. G.; SOARES, R. B.; FIGUEREIDO, C. M. S.; NAKAMURA, E. F.
-Compressive sensing for efficiently collecting wildlife sounds with wireless sensor networks
-21st International Conference on Computer Communications and Networks (ICCCN 2012), p. 1-7. IEEE
+Only numpy, pandas and the Python standard library are used by the five part
+scripts. No scikit-learn, PyTorch, TensorFlow, XGBoost, LightGBM, SciPy or
+statsmodels, and no library train/test split, metric or confusion-matrix
+helpers. reportlab was used only to typeset results_matrix.pdf; it is not
+imported by any part script.
 
 
-Citation Requests / Acknowledgements:
-Please cite some of our papers.
+HOW TO RUN
+----------
+Put all files in one folder (Frogs_MFCCs.csv must be next to the scripts; the
+code uses the relative path "Frogs_MFCCs.csv", never an absolute path).
+
+Windows PowerShell:
+
+    cd "path\to\folder"
+    python part1_decision_tree.py
+    python part2_bagging_boosting.py
+    python part3_random_forest.py
+    python part4_hierarchical.py
+    python part5_naive_bayes.py
+
+Linux / macOS:
+
+    python3 part1_decision_tree.py
+    python3 part2_bagging_boosting.py
+    python3 part3_random_forest.py
+    python3 part4_hierarchical.py
+    python3 part5_naive_bayes.py
+
+Each script runs standalone with one command. It prints its own sanity checks
+first, then the numbers that go into results_matrix.pdf:
+
+    part1_decision_tree.py    single tree, both criteria, plus depth sweep
+    part2_bagging_boosting.py bagging and AdaBoost, both criteria, plus stumps
+    part3_random_forest.py    random forest, both criteria, plus tree agreement
+    part4_hierarchical.py     router/experts, confusion matrices, failure analysis
+    part5_naive_bayes.py      Gaussian NB, correlation matrix, comparison
+
+Approximate runtimes on a laptop: part 1 ~5 s, part 2 ~50 s, part 3 ~30 s,
+part 4 ~4 s, part 5 ~1 s.
 
 
-
+IMPLEMENTATION NOTES
+--------------------
+- Split: stratified on Species, 80/20, seed 42, exactly the function given in
+  the assignment (common.stratified_split). Result: 5,756 train / 1,439 test
+  rows. The test set is used only for final evaluation.
+- Features: the 22 MFCCs only. Family, Genus, Species and RecordID are never
+  used as inputs.
+- Randomness: all models use a fresh np.random.RandomState(42); the split has
+  its own seed-42 generator. Candidate thresholds are midpoints between
+  consecutive distinct sorted values; gain ties go to the lower feature index,
+  then the lower threshold; leaf/vote ties go to the smallest class label.
+- Part 4 experts are trained on rows of the TRUE family; inference routes each
+  row first and then calls each expert once on its whole group.
